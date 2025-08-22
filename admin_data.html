@@ -13,7 +13,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            overflow-x: auto; /* Membuat tabel scrollable jika terlalu lebar */
+            overflow-x: auto;
         }
         table {
             width: 100%;
@@ -52,10 +52,13 @@
     </div>
 
     <script>
-        // Cek apakah ada token login di localStorage
-        if (!localStorage.getItem('isLoggedIn')) {
-            window.location.href = 'admin.html'; // Redirect ke halaman login
+        function checkLoginStatus() {
+            if (!localStorage.getItem('isLoggedIn')) {
+                window.location.href = 'admin.html'; // Redirect ke halaman login
+            }
         }
+
+        checkLoginStatus(); // Panggil fungsi untuk memeriksa status login
 
         document.addEventListener('DOMContentLoaded', function() {
             let registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
