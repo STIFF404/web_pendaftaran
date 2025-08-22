@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Formulir Pendaftaran</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 10px;
+            background-image: url('https://github.com/STIFF404/media/raw/refs/heads/main/images%20(20).jpeg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            margin: 0 auto;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="url"],
+        button {
+            width: 90%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .admin-login {
+            text-align: center;
+            margin-top: 10px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        h2 {
+            font-size: 1.5em;
+        }
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+
+            input[type="text"],
+            input[type="tel"],
+            input[type="url"],
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Pendaftaran</h2>
+        <form id="registrationForm">
+            <label for="nama">Nama:</label>
+            <input type="text" id="nama" name="nama" placeholder="Contoh: OmStiffYT" required>
+            <div id="namaError" class="error-message"></div>
+
+            <label for="no_hp">No. HP:</label>
+            <input type="tel" id="no_hp" name="no_hp" placeholder="Contoh: 081234567890" required>
+            <div id="noHpError" class="error-message"></div>
+
+            <label for="link_tiktok">Link TikTok:</label>
+            <input type="url" id="link_tiktok" name="link_tiktok" placeholder="Contoh: https://www.tiktok.com/@username" required>
+            <div id="linkTiktokError" class="error-message"></div>
+
+            <button type="submit">Submit</button>
+        </form>
+        <div class="admin-login">
+            <a href="admin.html">Login Admin</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const nama = document.getElementById('nama').value;
+            const noHp = document.getElementById('no_hp').value;
+            const linkTiktok = document.getElementById('link_tiktok').value;
+
+            // Reset error messages
+            document.getElementById('namaError').innerText = '';
+            document.getElementById('noHpError').innerText = '';
+            document.getElementById('linkTiktokError').innerText = '';
+
+            let isValid = true;
+
+            // Validasi Nama
+            if (nama.trim() === '') {
+                document.getElementById('namaError').innerText = 'Nama wajib diisi';
+                isValid = false;
+            }
+
+            // Validasi No. HP
+            const noHpRegex = /^08\d{8,12}$/;
+            if (!noHpRegex.test(noHp)) {
+                document.getElementById('noHpError').innerText = 'No. HP harus dimulai dengan 08 dan terdiri dari 10-14 angka';
+                isValid = false;
+            }
+
+            // Validasi Link TikTok
+            try {
+                new URL(linkTiktok);
+            } catch (_) {
+                document.getElementById('linkTiktokError').innerText = 'Link TikTok harus berupa URL yang valid';
+                isValid = false;
+            }
+
+            if (isValid) {
+                // Simpan data ke localStorage
+                let registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+                registrations.push({ nama: nama, no_hp: noHp, link_tiktok: linkTiktok });
+                localStorage.setItem('registrations', JSON.stringify(registrations));
+
+                alert('Pendaftaran berhasil!');
+                document.getElementById('registrationForm').reset();
+            }
+        });
+    </script>
+</body>
+</html>

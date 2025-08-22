@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Pendaftaran</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto; /* Membuat tabel scrollable jika terlalu lebar */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Data Pendaftaran</h2>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Nama</th>
+                    <th>No. HP</th>
+                    <th>Link TikTok</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Cek apakah ada token login di localStorage
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'admin.html'; // Redirect ke halaman login
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
+            const tableBody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+
+            registrations.forEach(function(reg, index) {
+                let row = tableBody.insertRow();
+                let noUrutCell = row.insertCell(0);
+                let namaCell = row.insertCell(1);
+                let noHpCell = row.insertCell(2);
+                let linkTiktokCell = row.insertCell(3);
+
+                noUrutCell.innerHTML = index + 1; // Menambahkan nomor urut
+                namaCell.innerHTML = reg.nama;
+                noHpCell.innerHTML = reg.no_hp;
+                linkTiktokCell.innerHTML = reg.link_tiktok;
+            });
+        });
+    </script>
+</body>
+</html>
