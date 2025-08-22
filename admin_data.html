@@ -33,6 +33,12 @@
             background-color: #f2f2f2;
         }
     </style>
+    <script>
+        // Cek status login SEBELUM konten HTML dirender
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'admin.html'; // Redirect ke halaman login
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -52,14 +58,6 @@
     </div>
 
     <script>
-        function checkLoginStatus() {
-            if (!localStorage.getItem('isLoggedIn')) {
-                window.location.href = 'admin.html'; // Redirect ke halaman login
-            }
-        }
-
-        checkLoginStatus(); // Panggil fungsi untuk memeriksa status login
-
         document.addEventListener('DOMContentLoaded', function() {
             let registrations = JSON.parse(localStorage.getItem('registrations') || '[]');
             const tableBody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
@@ -71,7 +69,7 @@
                 let noHpCell = row.insertCell(2);
                 let linkTiktokCell = row.insertCell(3);
 
-                noUrutCell.innerHTML = index + 1; // Menambahkan nomor urut
+                noUrutCell.innerHTML = index + 1;
                 namaCell.innerHTML = reg.nama;
                 noHpCell.innerHTML = reg.no_hp;
                 linkTiktokCell.innerHTML = reg.link_tiktok;
